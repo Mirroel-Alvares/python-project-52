@@ -1,0 +1,14 @@
+line-length = 80
+exclude = ["migrations", "settings.py", "manage.py"]
+indent-width = 4
+
+[lint.per-file-ignores]
+"__init__.py" = ["F401"]
+
+[lint]
+preview = true
+fixable = []
+select = ["E", "F", "N", "C90"]
+
+[format]
+quote-style = "double"
