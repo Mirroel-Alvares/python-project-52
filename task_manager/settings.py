@@ -67,6 +67,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'rollbar.contrib.django.middleware.RollbarNotifierMiddleware',
 ]
 
 ROOT_URLCONF = 'task_manager.urls'
@@ -87,9 +88,10 @@ TEMPLATES = [
     },
 ]
 
-# TEMPLATES = [
+# TEMPLATES = [ #удалить, если не будет проблем с отображением шаблонов
 #     {
 #         'DIRS': [os.path.join(BASE_DIR, 'templates')],  # Общая папка templates
+#         'DIRS': [BASE_DIR / 'templates'], либо такая реализация.
 #         'APP_DIRS': True,  # Ищет шаблоны в app/templates/
 #         # ...
 #     }
@@ -149,6 +151,8 @@ USE_TZ = True
 
 # LOCALE_PATHS = [BASE_DIR / 'locale']  # папка для файлов переводов
 
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
@@ -158,3 +162,15 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Auth
+AUTH_USER_MODEL = "users.User"
+LOGIN_URL = "login"
+LOGIN_REDIRECT_URL = "index"
+LOGOUT_REDIRECT_URL = "index"
+
+# ROLLBAR = {
+#     'access_token': os.getenv('ROLLBAR_ACCESS_TOKEN'),  # Ключ из Rollbar
+#     'environment': 'development' if DEBUG else 'production',
+#     'root': BASE_DIR,
+# }

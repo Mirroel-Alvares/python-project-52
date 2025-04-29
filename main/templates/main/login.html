@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+
+
+
+        <form id="contact_form" action="{% url 'main:login' %}" method="post">
+          {% load django_bootstrap5 %}
+          {% csrf_token %}
+          {% bootstrap_form login_form %}
+          {% buttons %}
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary">Войти</button>
+          </div>
+          {% endbuttons %}
+        </form>
+
+{% endblock %}

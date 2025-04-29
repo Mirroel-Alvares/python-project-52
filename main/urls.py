@@ -23,5 +23,4 @@ urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
     path('login/', views.LoginView.as_view(), name='login'),
     path('logout/', views.LogoutView.as_view(), name='logout'),
-    # path('create/',         views.AboutView.as_view(), name='about'),
 ]
