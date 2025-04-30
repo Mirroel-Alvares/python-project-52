@@ -1,9 +1,10 @@
+from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic import (
     CreateView,
     # DeleteView,
     # DetailView,
-    # TemplateView,
+    TemplateView,
     ListView,
     # UpdateView,
 )
@@ -15,12 +16,29 @@ from users.models import User
 class UsersIndexView(ListView):
     model = User
     template_name = 'users/users_index.html'
+    context_object_name = "users"
 
 
 class UserCreate(CreateView):
     model = User
     form_class = CustomUserCreationForm
-    template_name = "users/users_create.html"
+    template_name = "main/form.html"
+    success_url = reverse_lazy("login")
+    extra_context = dict(title="Регистрация", button="Зарегистрировать")
+
+    def form_valid(self, form):
+        messages.success(self.request, "Пользователь успешно зарегистрирован")
+        return super().form_valid(form)
+
+
+class UserDelete(TemplateView):
+    template_name = 'users/user_delete.html'
+
+
+class UserUpdate(TemplateView):
+    template_name = 'users/user_update.html'
+
+
 
 
 
