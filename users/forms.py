@@ -1,7 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.safestring import mark_safe
-from django.core.exceptions import ValidationError
 from .models import User
 
 
@@ -35,7 +34,7 @@ class CustomUserCreationForm(UserCreationForm):
             "placeholder": "Пароль"
         }),
         label="Пароль",
-        help_text=mark_safe("<strong>•</strong> Ваш пароль должен содержать как минимум 3 символа.")
+        help_text=mark_safe("<span style='margin-left: 10px;'><strong>•</strong> Ваш пароль должен содержать как минимум 3 символа.")
     )
     password2 = forms.CharField(
         widget=forms.TextInput(attrs={
@@ -55,4 +54,27 @@ class CustomUserCreationForm(UserCreationForm):
             "password1",
             "password2"
             ]
+
+class CustomUserUpdateForm(CustomUserCreationForm):
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop("user", None)
+        super().__init__(*args, **kwargs)
+
+    def cleane_username(self):
+        username = self.cleaned_data.get("username")
+        if User.objects.filter(username=username).exists():
+            if self.user and self.user.username != username:
+                raise forms.ValidatorError(
+                    "Пользователь с таким именем уже существует"
+                )
+
+
+
+
+
+
+
+
+
+
 

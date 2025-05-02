@@ -6,10 +6,10 @@ from django.views.generic import (
     # DetailView,
     TemplateView,
     ListView,
-    # UpdateView,
+    UpdateView,
 )
 
-from users.forms import CustomUserCreationForm
+from users.forms import CustomUserCreationForm, CustomUserUpdateForm
 from users.models import User
 
 
@@ -35,17 +35,17 @@ class UserDelete(TemplateView):
     template_name = 'users/user_delete.html'
 
 
-class UserUpdate(TemplateView):
-    template_name = 'users/user_update.html'
+class UserUpdate(UpdateView):
+    model = User
+    template_name = "main/form.html"
+    form_class = CustomUserUpdateForm
+    success_url = reverse_lazy("users:users_index")
+    extra_context = dict(title="Изменение пользователя", button="Изменить")
 
 
 
 
 
-# from python_django_blog.articles.forms import ArticleForm
-# from python_django_blog.articles.models import Article
-#
-#
 # class IndexView(ListView):
 #     model = Article
 #     template_name = "articles/index.html"
