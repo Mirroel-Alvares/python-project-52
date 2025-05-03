@@ -6,9 +6,15 @@ dev:
 install:
 	uv sync
 
-migrate:
+migrations:
 	python3 manage.py makemigrations
+
+migrate:
 	python3 manage.py migrate
+
+shell:
+	python3 manage.py shell
+
 
 devg:
 	uv run gunicorn -w 5 -b 127.0.0.1:5000 page_analyzer:app

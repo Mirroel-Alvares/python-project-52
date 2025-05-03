@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic import (
     CreateView,
-    # DeleteView,
+    DeleteView,
     # DetailView,
     TemplateView,
     ListView,
@@ -24,7 +24,7 @@ class UserCreate(CreateView):
     form_class = CustomUserCreationForm
     template_name = "main/form.html"
     success_url = reverse_lazy("login")
-    extra_context = dict(title="Регистрация", button="Зарегистрировать")
+    extra_context = dict(page_title='Create user', title="Регистрация", button="Зарегистрировать")
 
     def form_valid(self, form):
         messages.success(self.request, "Пользователь успешно зарегистрирован")
@@ -37,36 +37,18 @@ class UserDelete(TemplateView):
 
 class UserUpdate(UpdateView):
     model = User
-    template_name = "main/form.html"
     form_class = CustomUserUpdateForm
+    template_name = "main/form.html"
     success_url = reverse_lazy("users:users_index")
-    extra_context = dict(title="Изменение пользователя", button="Изменить")
+    extra_context = dict(page_title='Update user', title="Изменение пользователя", button="Изменить")
 
 
+class UserDelete(DeleteView):
+    model = User
+    template_name = "users/user_delete.html"
+    success_url = reverse_lazy("users:users_index")
 
 
-
-# class IndexView(ListView):
-#     model = Article
-#     template_name = "articles/index.html"
-#
-#
-# class ArticleCreate(CreateView):
-#     model = Article
-#     form_class = ArticleForm
-#     template_name = "articles/create.html"
-#
-#
-# class ArticleUpdate(UpdateView):
-#     model = Article
-#     form_class = ArticleForm
-#     template_name = "articles/update.html"
-#
-#
-# class ArticleDelete(DeleteView):
-#     model = Article
-#     success_url = reverse_lazy("articles:index")
-#     template_name = "articles/delete.html"
 #
 #
 # class ArticleDetail(DetailView):

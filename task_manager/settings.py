@@ -72,6 +72,15 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'task_manager.urls'
 
+# URL для перенаправления после успешного входа
+LOGIN_REDIRECT_URL = '/'
+# URL для входа
+LOGIN_URL = '/login/'
+# URL для перенаправления после выхода
+LOGOUT_REDIRECT_URL = '/'
+
+
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
