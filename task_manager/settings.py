@@ -177,9 +177,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Auth
 AUTH_USER_MODEL = "users.User"
-LOGIN_URL = "login"
-LOGIN_REDIRECT_URL = "index"
-LOGOUT_REDIRECT_URL = "index"
+LOGIN_URL = "main:login"
+LOGIN_REDIRECT_URL = "main:index"
+LOGOUT_REDIRECT_URL = "main:index"
 
 # ROLLBAR = {
 #     'access_token': os.getenv('ROLLBAR_ACCESS_TOKEN'),  # Ключ из Rollbar

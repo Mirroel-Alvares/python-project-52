@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import (
     CreateView,
@@ -31,11 +32,7 @@ class UserCreate(CreateView):
         return super().form_valid(form)
 
 
-class UserDelete(TemplateView):
-    template_name = 'users/user_delete.html'
-
-
-class UserUpdate(UpdateView):
+class UserUpdate(LoginRequiredMixin, UpdateView):
     model = User
     form_class = CustomUserUpdateForm
     template_name = "main/form.html"
@@ -43,14 +40,7 @@ class UserUpdate(UpdateView):
     extra_context = dict(page_title='Update user', title="Изменение пользователя", button="Изменить")
 
 
-class UserDelete(DeleteView):
+class UserDelete(LoginRequiredMixin, DeleteView):
     model = User
     template_name = "users/user_delete.html"
     success_url = reverse_lazy("users:users_index")
-
-
-#
-#
-# class ArticleDetail(DetailView):
-#     model = Article
-#     template_name = "articles/detail.html"
