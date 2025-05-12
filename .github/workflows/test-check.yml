@@ -1,0 +1,64 @@
+name: test_check
+
+on:
+  - push
+  - pull_request
+
+env:
+  PYTHON_VERSION: "3.11"
+  POSTGRES_VERSION: "15"
+  UV_VERSION: "0.1.0"
+
+jobs:
+  test-and-sonar:
+    name: Test & SonarCloud Analysis
+    runs-on: ubuntu-latest
+    env:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_PROJECT_52 }}
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
+      PYTHONUNBUFFERED: 1
+
+    services:
+      postgres:
+        image: postgres:${{ env.POSTGRES_VERSION }}
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: test_db
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install dep
+        run: |
+          make build
+
+      - name: Run tests with coverage
+        run: |
+          coverage run --source='.' -m pytest tests/
+          coverage xml
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          args: >
+            -Dsonar.organization=<mirroel-alvares>
+            -Dsonar.projectKey=<Mirroel-Alvares_python-project-52>
+            -Dsonar.python.coverage.reportPaths=coverage.xml
+            -Dsonar.sources=.
+            -Dsonar.exclusions=**/migrations/**,**/tests/**,**/static/**
+            -Dsonar.tests=tests
+            -Dsonar.python.version=${{ env.PYTHON_VERSION }}

@@ -11,7 +11,7 @@ requires-python = ">=3.10"
 
 classifiers = [
   'Development Status :: 3 - Alpha',
-  'Environment :: Console',
+  'Environment :: Web Environment',
   'Intended Audience :: End Users/Desktop',
   'Intended Audience :: Education',
   'License :: Free For Educational Use',
@@ -32,15 +32,18 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "coverage>=7.8.0",
+    "pytest>=8.3.5",
+    "pytest-cov>=6.1.1",
     "ruff>=0.11.6",
 ]
 
-#[tool.hatch.build.targets.sdist]
-#include = ["task_manager"]
-#
-#[tool.hatch.build.targets.wheel]
-#include = ["task_manager"]
-#
-#[build-system]
-#requires = ["hatchling"]
-#build-backend = "hatchling.build"
+[tool.hatch.build.targets.sdist]
+include = ["task_manager"]
+
+[tool.hatch.build.targets.wheel]
+include = ["task_manager"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
