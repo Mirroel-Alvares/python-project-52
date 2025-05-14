@@ -1,5 +1,3 @@
-from django.core.exceptions import ValidationError
-from django.test import TestCase
 from django.contrib.auth import get_user_model
 from .test_base import BaseUserTest
 from ..forms import CustomUserCreationForm, CustomUserUpdateForm
@@ -11,21 +9,37 @@ class CustomUserCreationFormTest(BaseUserTest):
     def test_form_has_correct_fields(self):
         """Проверка наличия всех ожидаемых полей в форме"""
         form = CustomUserCreationForm()
-        expected_fields = ['first_name', 'last_name', 'username', 'password1', 'password2']
+        expected_fields = [
+            'first_name',
+            'last_name',
+            'username',
+            'password1',
+            'password2'
+        ]
         self.assertSequenceEqual(expected_fields, list(form.fields.keys()))
 
     def test_form_field_classes_and_attributes(self):
         """Проверка атрибутов и классов полей формы"""
         form = CustomUserCreationForm()
 
-        self.assertEqual(form.fields['first_name'].widget.attrs['class'], 'form-control')
-        self.assertEqual(form.fields['first_name'].widget.attrs['placeholder'], 'Имя')
+        self.assertEqual(
+            form.fields['first_name'].widget.attrs['class'],
+            'form-control'
+        )
+        self.assertEqual(
+            form.fields['first_name'].widget.attrs['placeholder'],
+            'Имя'
+        )
 
-        self.assertIn('Ваш пароль должен содержать как минимум 3 символа',
-                      form.fields['password1'].help_text)
+        self.assertIn(
+            'Ваш пароль должен содержать как минимум 3 символа',
+            form.fields['password1'].help_text
+        )
 
-        self.assertEqual(form.fields['password2'].help_text,
-                         'Для подтверждения введите, пожалуйста, пароль ещё раз.')
+        self.assertEqual(
+            form.fields['password2'].help_text,
+            'Для подтверждения введите, пожалуйста, пароль ещё раз.'
+        )
 
     def test_valid_form_with_fixture_data(self):
         """Проверка валидности формы с данными из фикстур"""

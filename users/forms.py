@@ -60,6 +60,7 @@ class CustomUserCreationForm(UserCreationForm):
             "password2"
             ]
 
+
 class CustomUserUpdateForm(CustomUserCreationForm):
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop("user", None)

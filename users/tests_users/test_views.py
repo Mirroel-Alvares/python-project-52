@@ -42,7 +42,10 @@ class UsersViewsTest(BaseUserTest):
 
         # Проверка сообщения об успехе
         messages = list(get_messages(response.wsgi_request))
-        self.assertEqual(str(messages[0]), "Пользователь успешно зарегистрирован")
+        self.assertEqual(str(
+            messages[0]),
+            "Пользователь успешно зарегистрирован"
+        )
 
     def test_user_create_view_post_invalid(self):
         """Тестирование создания пользователя с невалидными данными"""
@@ -63,9 +66,15 @@ class UsersViewsTest(BaseUserTest):
 
         # Проверяем ошибки
         self.assertIn('first_name', form.errors)
-        self.assertEqual(form.errors['first_name'], ['Обязательное поле.'])
+        self.assertEqual(
+            form.errors['first_name'],
+            ['Обязательное поле.']
+        )
         self.assertIn('username', form.errors)
-        self.assertEqual(form.errors['username'], ['Пользователь с таким именем уже существует.'])
+        self.assertEqual(
+            form.errors['username'],
+            ['Пользователь с таким именем уже существует.']
+        )
         self.assertIn('password2', form.errors)
 
     def test_user_update_view_owner(self):
@@ -73,7 +82,9 @@ class UsersViewsTest(BaseUserTest):
         self.user1.set_password('IvIva27')
         self.user1.save()
 
-        login_success = self.client.login(username='Ivashka', password='IvIva27')
+        login_success = self.client.login(
+            username='Ivashka', password='IvIva27'
+        )
         self.assertTrue(login_success)
 
         response = self.client.get(
@@ -87,8 +98,13 @@ class UsersViewsTest(BaseUserTest):
         self.user1.set_password('IvIva27')
         self.user1.save()
 
-        login_success = self.client.login(username='Ivashka', password='IvIva27')
-        self.assertTrue(login_success, "Не удалось войти как пользователь. Проверьте username и password")
+        login_success = self.client.login(
+            username='Ivashka', password='IvIva27'
+        )
+        self.assertTrue(
+            login_success,
+            "Не удалось войти как пользователь. Проверьте username и password"
+        )
 
         update_data = {
             'first_name': 'Updated',
@@ -127,8 +143,18 @@ class UsersViewsTest(BaseUserTest):
             "Пароль не изменился"
         )
 
-
     def test_user_update_view_not_owner(self):
         """Тестирование попытки обновления чужого пользователя"""
+        self.user1.set_password('IvIva27')
+        self.user1.save()
         self.client.login(username='Ivashka', password='IvIva27')
-        response = self.client
+        response = self.client.get(
+            reverse('users:user_update', kwargs={'pk': self.user2.pk})
+        )
+        self.assertRedirects(response, reverse('users:users_index'))
+
+        messages = list(get_messages(response.wsgi_request))
+        self.assertEqual(
+            str(messages[0]),
+            'У вас нет прав для изменения другого пользователя.'
+        )

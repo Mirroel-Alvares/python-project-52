@@ -44,10 +44,20 @@ jobs:
         run: |
           make build
 
+      - name: Wait for PostgreSQL
+        run: |
+          until pg_isready -h localhost -p 5432; do
+            echo "Waiting for PostgreSQL..."
+            sleep 2
+          done
+
+      - name: Run linter ruff
+        run: make lint
+
       - name: Run tests with coverage
         run: |
-          coverage run --source='.' -m pytest tests/
-          coverage xml
+          make test
+          make test-coverage
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
