@@ -45,7 +45,7 @@ test:
 	python3 manage.py test
 
 test-coverage:
-	uv run pytest --cov=task_manager --cov-report xml
+# 	uv run pytest --cov=task_manager --cov-report xml
 
 	coverage run --source='.' -m pytest tests/
 	coverage xml

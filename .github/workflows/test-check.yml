@@ -40,6 +40,9 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
+      - name: Make build.sh executable
+        run: chmod +x build.sh
+
       - name: Install dep
         run: |
           make build
