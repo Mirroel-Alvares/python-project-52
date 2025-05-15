@@ -50,6 +50,13 @@ class StatusDelete(AuthRequiredMixin, SuccessMessageMixin, DeleteView):
     success_url = reverse_lazy("users:users_index")
     extra_context = dict(
         page_title='Delete status',
-        title="Удаление  статуса"
+        title="Удаление статуса"
     )
     success_message = 'Статус успешно удален'
+
+    # def delete(self, request, *args, **kwargs):
+    #     status = self.get_object()
+    #     if Task.objects.filter(status=status).exists():
+    #         messages.error(request, 'Невозможно удалить статус, так как он связан с одной или несколькими задачами.')
+    #         return redirect(self.success_url)
+    #     return super().delete(request, *args, **kwargs)
