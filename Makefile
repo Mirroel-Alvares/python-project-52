@@ -1,7 +1,6 @@
 dev:
 	python3 manage.py runserver
 
-
 install:
 	uv sync
 
@@ -22,14 +21,6 @@ render-start:
 
 build:
 	./build.sh
-
-
-
-devg:
-	uv run gunicorn -w 5 -b 127.0.0.1:5000 page_analyzer:app
-
-start:
-	uv run gunicorn -w 5 -b 0.0.0.0:$(PORT) page_analyzer:app
 
 upgrade:
 	uv sync --upgrade
