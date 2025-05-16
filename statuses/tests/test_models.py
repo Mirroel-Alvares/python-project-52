@@ -1,4 +1,3 @@
-from django.test import TestCase
 from .test_base import BaseStatusTest
 from ..models import Status
 

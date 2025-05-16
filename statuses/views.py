@@ -54,9 +54,15 @@ class StatusDelete(AuthRequiredMixin, SuccessMessageMixin, DeleteView):
     )
     success_message = 'Статус успешно удален'
 
-    # def delete(self, request, *args, **kwargs):
-    #     status = self.get_object()
-    #     if Task.objects.filter(status=status).exists():
-    #         messages.error(request, 'Невозможно удалить статус, так как он связан с одной или несколькими задачами.')
-    #         return redirect(self.success_url)
-    #     return super().delete(request, *args, **kwargs)
+    def delete(self, request, *args, **kwargs):
+        status = self.get_object()
+        if Task.objects.filter(status=status).exists():
+            messages.error(
+            request,
+            """
+            Невозможно удалить статус,
+            потому что он используется
+            """
+            )
+            return redirect(self.success_url)
+        return super().delete(request, *args, **kwargs)

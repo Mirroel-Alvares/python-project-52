@@ -39,6 +39,6 @@ class StatusFormTest(BaseStatusTest):
 
     def test_unique_name_validation(self):
         """Тестирование уникальности имени статуса"""
-        form = StatusForm(data={'name': 'в космосе'})  # Используем существующее имя из фикстуры
+        form = StatusForm(data={'name': 'в космосе'})
         self.assertFalse(form.is_valid())
         self.assertIn('name', form.errors)

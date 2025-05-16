@@ -2,7 +2,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.safestring import mark_safe
-from .models import User
+from users.models import User
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -30,7 +30,7 @@ class CustomUserCreationForm(UserCreationForm):
             Только буквы, цифры и символы @/./+/-/_."
     )
     password1 = forms.CharField(
-        widget=forms.TextInput(attrs={
+        widget=forms.PasswordInput(attrs={
             "class": "form-control",
             "placeholder": "Пароль"
         }),
@@ -42,7 +42,7 @@ class CustomUserCreationForm(UserCreationForm):
         )
     )
     password2 = forms.CharField(
-        widget=forms.TextInput(attrs={
+        widget=forms.PasswordInput(attrs={
             "class": "form-control",
             "placeholder": "Подтверждение пароля"
         }),
