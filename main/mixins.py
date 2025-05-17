@@ -20,7 +20,12 @@ class OwnerRequiredMixin(UserPassesTestMixin):
     permission_url = None
 
     def test_func(self):
-        return self.get_object() == self.request.user
+        obj = self.get_object()
+        if hasattr(obj, 'author'):
+            return obj.author == self.request.user
+        elif hasattr(obj, 'user'):
+            return obj.user == self.request.user
+        return obj == self.request.user
 
     def handle_no_permission(self):
         messages.error(self.request, self.permission_message)

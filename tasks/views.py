@@ -19,11 +19,13 @@ class TasksIndexView(AuthRequiredMixin, FilterView):
     context_object_name = "tasks"
     filterset_class = TaskFilter
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        if not self.request.user.is_superuser:
-            queryset = queryset.filter(author=self.request.user)
-        return queryset.select_related('status', 'performer').prefetch_related('labels')
+    # def get_queryset(self):
+    #     queryset = super().get_queryset()
+    #     if not self.request.user.is_superuser:
+    #         queryset = queryset.filter(author=self.request.user)
+    #     return queryset.select_related(
+    #         'status', 'performer', 'author'
+    #     ).prefetch_related('labels_name')
 
 
 class TaskCreate(AuthRequiredMixin, SuccessMessageMixin, CreateView):
@@ -38,9 +40,13 @@ class TaskCreate(AuthRequiredMixin, SuccessMessageMixin, CreateView):
     )
     success_message = "Задача успешно создана"
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
 
-class TaskUpdate(AuthRequiredMixin, OwnerRequiredMixin,
-                 SuccessMessageMixin, UpdateView):
+
+class TaskUpdate(AuthRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Task
     form_class = TaskForm
     template_name = "main/form.html"
@@ -63,8 +69,13 @@ class TaskDelete(AuthRequiredMixin, OwnerRequiredMixin,
         title="Удаление задачи"
     )
     success_message = 'Задача успешно удалена'
+    permission_message = 'Задачу может удалить только ее автор'
+    permission_url = reverse_lazy("tasks:tasks_index")
 
 
 class TaskDetails(DetailView):
     model = Task
     template_name = "tasks/task_details.html"
+
+    def get_queryset(self):
+        return super().get_queryset().prefetch_related('labels')

@@ -91,7 +91,10 @@ class CustomUserCreationFormTest(BaseUserTest):
 
 class CustomUserUpdateFormTest(BaseUserTest):
     def test_form_inheritance(self):
-        """Проверка что форма обновления наследует все поля от формы создания"""
+        """
+        Проверка, что форма обновления,
+        наследует все поля от формы создания
+        """
         self.assertEqual(
             set(CustomUserUpdateForm.Meta.fields),
             set(CustomUserCreationForm.Meta.fields)

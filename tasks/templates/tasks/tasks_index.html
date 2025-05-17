@@ -9,44 +9,55 @@
   <h1 class="my-4">Задачи</h1>
   <a class="btn btn-primary mb-3" href="{% url 'tasks:task_create' %}">Создать задачу</a>
 
-  <div class="card mb-4">
-      <div class="card-body">
-          <form method="get" class="row g-3">
-              {% bootstrap_form filter.form layout='horizontal' size='sm' horizontal_label_class='col-md-2' field_class='col-md-4' %}
-              <div class="col-12">
-                  {% bootstrap_button "Применить фильтр" button_type="submit" button_class="btn btn-primary" %}
-              </div>
-          </form>
-      </div>
+
+  {% comment %}
+  <form method="get">
+    {{ filter.form.as_p }}
+    <input type="submit" value="Показать"/>
+  </form>
+  {% endcomment %}
+
+<div class="card mb-3">
+    <div class="card-body bg-light">
+      <form class="form-inline center" method="get">
+        {% for field in filter.form %}
+          <div class="mb-3">
+            <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+          </div>
+        {% endfor %}
+        <input class="btn btn-primary" type="submit" value="Показать">
+      </form>
+    </div>
   </div>
 
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Имя</th>
-        <th>Статус</th>
-        <th>Автор</th>
-        <th>Исполнитель</th>
-        <th>Дата создания</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-    {% for status in statuses %}
-      <tr>
-          <td>{{ status.id }}</td>
-          <td>{{ status.name }}</td>
-          <td>{{ status.status }}</td>
-          <td>{{ status.author }}</td>
-          <td>{{ status.performer }}</td>
-          <td>{{ status.created_at|date:"d.m.Y H:i" }}</td>
-          <td>
-            <a href="{% url 'tasks:task_update' tasks.id %}">Изменить</a>
-            <br>
-            <a href="{% url 'tasks:task_delete' tasks.id %}">Удалить</a>
-          </td>
-      </tr>
+<table class="table table-striped">
+<thead>
+  <tr>
+    <th>ID</th>
+    <th>Имя</th>
+    <th>Статус</th>
+    <th>Автор</th>
+    <th>Исполнитель</th>
+    <th>Дата создания</th>
+    <th></th>
+  </tr>
+</thead>
+<tbody>
+    {% for obj in filter.qs %}
+    <tr>
+      <td>{{ obj.id }}</td>
+      <td><a href="{% url 'tasks:task_details' obj.id %}">{{ obj.name }}</a></td>
+      <td>{{ obj.status }}</td>
+      <td>{{ obj.author }}</td>
+      <td>{{ obj.performer }}</td>
+      <td>{{ obj.created_at|date:"d.m.Y H:i" }}</td>
+      <td>
+        <a href="{% url 'tasks:task_update' obj.id %}">Изменить</a>
+        <br>
+        <a href="{% url 'tasks:task_delete' obj.id %}">Удалить</a>
+      </td>
+    </tr>
     {% endfor %}
     </tbody>
   </table>

@@ -13,15 +13,30 @@ from users.models import User
 
 class TaskForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
-        user = kwargs.pop('user', None)
+        self.user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
 
         self.fields['status'].queryset = Status.objects.all()
         self.fields['performer'].queryset = User.objects.filter(is_active=True)
         self.fields['labels'].queryset = Label.objects.all()
 
-        if user:
-            self.instance.author = user
+    # def save(self, commit=True):
+    #     instance = super().save(commit=False)
+    #     if self.user:
+    #         instance.author = self.user
+    #     instance.save()
+    #     if self.cleaned_data['labels']:
+    #         instance.labels.set(self.cleaned_data['labels'])
+    #     return instance
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        if self.user:
+            instance.author = self.user
+        instance.save()
+        if 'labels' in self.cleaned_data:
+            instance.labels.set(self.cleaned_data['labels'])
+        return instance
 
     name = forms.CharField(
         widget=forms.TextInput(attrs={
@@ -34,7 +49,6 @@ class TaskForm(forms.ModelForm):
         widget=forms.Textarea(attrs={
             "class": "form-control",
             "placeholder": "Описание",
-            #"rows": 3 проверить с ним и без него. и с вариациями
         }),
         label="Описание"
     )
@@ -54,13 +68,12 @@ class TaskForm(forms.ModelForm):
     )
     labels = forms.ModelMultipleChoiceField(
         queryset=Label.objects.none(),
-        widget=forms.CheckboxSelectMultiple(attrs={   #widget=forms.SelectMultiple(attrs={ проверить варианты.
-            "class": "form-select",
+        widget=forms.CheckboxSelectMultiple(attrs={
+            "class": "form-control",
         }),
         label="Метки",
         required=False,
     )
-
 
     class Meta:
         model = Task
@@ -92,7 +105,10 @@ class TaskFilter(FilterSet):
     self_tasks = BooleanFilter(
         method="filter_my_tasks",
         label="Только свои задачи",
-        widget=forms.CheckboxInput(attrs={"class": "form-check-input mr-3"}),
+        widget=forms.CheckboxInput(attrs={
+        "class": "form-check-input",
+        "style": "float: left; margin-right: 10px;"
+        }),
     )
 
     def filter_my_tasks(self, queryset, name, value):

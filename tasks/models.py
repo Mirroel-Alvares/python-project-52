@@ -25,17 +25,17 @@ class Task(models.Model):
         User,
         verbose_name='Автор',
         on_delete=models.PROTECT,
-        related_name="tasks"
+        related_name="tasks_author"
     )
     performer = models.ForeignKey(
         User,
         verbose_name='Исполнитель',
         on_delete=models.PROTECT,
-        related_name="tasks",
+        related_name="task_performer",
         blank=True,
         null=True
     )
-    label = models.ManyToManyField(
+    labels = models.ManyToManyField(
         Label,
         verbose_name='Метки',
         related_name="tasks",

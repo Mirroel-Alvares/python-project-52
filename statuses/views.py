@@ -6,6 +6,8 @@ from django.views.generic import (
     ListView,
     UpdateView,
 )
+from django.contrib import messages
+from django.shortcuts import redirect
 
 from statuses.forms import StatusForm
 from statuses.models import Status
@@ -47,7 +49,7 @@ class StatusUpdate(AuthRequiredMixin, SuccessMessageMixin, UpdateView):
 class StatusDelete(AuthRequiredMixin, SuccessMessageMixin, DeleteView):
     model = Status
     template_name = "main/delete_form.html"
-    success_url = reverse_lazy("users:users_index")
+    success_url = reverse_lazy("statuses:statuses_index")
     extra_context = dict(
         page_title='Delete status',
         title="Удаление статуса"
@@ -56,7 +58,7 @@ class StatusDelete(AuthRequiredMixin, SuccessMessageMixin, DeleteView):
 
     def delete(self, request, *args, **kwargs):
         status = self.get_object()
-        if Task.objects.filter(status=status).exists():
+        if Status.objects.filter(status=status).exists():
             messages.error(
             request,
             """
