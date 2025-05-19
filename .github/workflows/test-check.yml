@@ -1,8 +1,8 @@
 name: test_check
 
 on:
-  - push
-  - pull_request
+  push:
+  pull_request:
 
 env:
   PYTHON_VERSION: "3.11"
@@ -34,7 +34,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up Python ${{ env.PYTHON_VERSION }}
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
@@ -53,7 +53,7 @@ jobs:
             sleep 2
           done
 
-      - name: Run linter ruff
+      - name: Run linter
         run: |
           source .venv/bin/activate
           make lint
@@ -64,8 +64,9 @@ jobs:
           make test
           make test-coverage
 
+
       - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
+        uses: SonarSource/sonarqube-scan-action@v5.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -75,7 +76,7 @@ jobs:
             -Dsonar.python.coverage.reportPaths=coverage.xml
             -Dsonar.sources=.
             -Dsonar.exclusions=**/migrations/**,**/tests/**,**/static/**
-            -Dsonar.tests=tests
+            -Dsonar.tests=statuses/tests,tasks/tests,labels/tests,users/tests
+            -Dsonar.test.inclusions=**/test_*.py
             -Dsonar.python.version=${{ env.PYTHON_VERSION }}
             -Dsonar.ci.autoconfig.disabled=true
-            -Dsonar.ci.skip=false
