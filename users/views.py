@@ -59,7 +59,7 @@ class UserDelete(AuthRequiredMixin, DeleteProtectionMixin, OwnerRequiredMixin,
     success_message = 'Пользователь успешно удален'
     permission_message = 'У вас нет прав для изменения другого пользователя.'
     permission_url = reverse_lazy("users:users_index")
-    protected_message = """
-    Невозможно удалить пользователя, потому что он используется
-    """
+    protected_message = (
+        "Невозможно удалить пользователя, потому что он используется"
+    )
     protected_url = reverse_lazy("users:users_index")
