@@ -6,12 +6,10 @@ from django.views.generic import (
     ListView,
     UpdateView,
 )
-from django.contrib import messages
-from django.shortcuts import redirect
 
 from statuses.forms import StatusForm
 from statuses.models import Status
-from main.mixins import AuthRequiredMixin
+from main.mixins import AuthRequiredMixin, DeleteProtectionMixin
 
 
 class StatusesIndexView(AuthRequiredMixin, ListView):
@@ -46,7 +44,8 @@ class StatusUpdate(AuthRequiredMixin, SuccessMessageMixin, UpdateView):
     success_message = "Статус успешно изменен"
 
 
-class StatusDelete(AuthRequiredMixin, SuccessMessageMixin, DeleteView):
+class StatusDelete(AuthRequiredMixin, DeleteProtectionMixin,
+                   SuccessMessageMixin, DeleteView):
     model = Status
     template_name = "main/delete_form.html"
     success_url = reverse_lazy("statuses:statuses_index")
@@ -55,16 +54,5 @@ class StatusDelete(AuthRequiredMixin, SuccessMessageMixin, DeleteView):
         title="Удаление статуса"
     )
     success_message = 'Статус успешно удален'
-
-    def delete(self, request, *args, **kwargs):
-        status = self.get_object()
-        if Status.objects.filter(status=status).exists():
-            messages.error(
-            request,
-            """
-            Невозможно удалить статус,
-            потому что он используется
-            """
-            )
-            return redirect(self.success_url)
-        return super().delete(request, *args, **kwargs)
+    protected_message = 'Невозможно удалить статус, потому что он используется'
+    protected_url = reverse_lazy("statuses:statuses_index")

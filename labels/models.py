@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import ProtectedError
 
 
 class Label(models.Model):
@@ -7,6 +8,14 @@ class Label(models.Model):
         verbose_name='Дата создания',
         auto_now_add=True
     )
+
+    def delete(self, *args, **kwargs):
+        if self.tasks.exists():
+            raise ProtectedError(
+                "Невозможно удалить метку, потому что она используется",
+                self.tasks.all()
+            )
+        return super().delete(*args, **kwargs)
 
     def __str__(self):
         return self.name

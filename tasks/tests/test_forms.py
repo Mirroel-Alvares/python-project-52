@@ -1,135 +1,90 @@
-# from django.contrib.auth import get_user_model
-# from .test_base import BaseUserTest
-# from ..forms import CustomUserCreationForm, CustomUserUpdateForm
-#
-# User = get_user_model()
-#
-#
-# class CustomUserCreationFormTest(BaseUserTest):
-#     def test_form_has_correct_fields(self):
-#         """Проверка наличия всех ожидаемых полей в форме"""
-#         form = CustomUserCreationForm()
-#         expected_fields = [
-#             'first_name',
-#             'last_name',
-#             'username',
-#             'password1',
-#             'password2'
-#         ]
-#         self.assertSequenceEqual(expected_fields, list(form.fields.keys()))
-#
-#     def test_form_field_classes_and_attributes(self):
-#         """Проверка атрибутов и классов полей формы"""
-#         form = CustomUserCreationForm()
-#
-#         self.assertEqual(
-#             form.fields['first_name'].widget.attrs['class'],
-#             'form-control'
-#         )
-#         self.assertEqual(
-#             form.fields['first_name'].widget.attrs['placeholder'],
-#             'Имя'
-#         )
-#
-#         self.assertIn(
-#             'Ваш пароль должен содержать как минимум 3 символа',
-#             form.fields['password1'].help_text
-#         )
-#
-#         self.assertEqual(
-#             form.fields['password2'].help_text,
-#             'Для подтверждения введите, пожалуйста, пароль ещё раз.'
-#         )
-#
-#     def test_valid_form_with_fixture_data(self):
-#         """Проверка валидности формы с данными из фикстур"""
-#         form = CustomUserCreationForm(data={
-#             'first_name': 'New',
-#             'last_name': 'User',
-#             'username': 'newuser',
-#             'password1': 'Testpass123',
-#             'password2': 'Testpass123'
-#         })
-#         self.assertTrue(form.is_valid())
-#
-#     def test_password_mismatch(self):
-#         """Проверка несоответствия паролей"""
-#         form = CustomUserCreationForm(data={
-#             'first_name': 'New',
-#             'last_name': 'User',
-#             'username': 'newuser',
-#             'password1': 'Testpass123',
-#             'password2': 'Wrongpass123'
-#         })
-#         self.assertFalse(form.is_valid())
-#         self.assertIn('password2', form.errors)
-#
-#     def test_username_uniqueness(self):
-#         """Проверка уникальности имени пользователя"""
-#         form = CustomUserCreationForm(data={
-#             'first_name': 'Ivan',
-#             'last_name': 'Ivanov',
-#             'username': 'Ivashka',
-#             'password1': 'Newpass123',
-#             'password2': 'Newpass123'
-#         })
-#         self.assertFalse(form.is_valid())
-#         self.assertIn('username', form.errors)
-#
-#     def test_username_validation(self):
-#         """Проверка валидации имени пользователя"""
-#         form = CustomUserCreationForm(data={
-#             'first_name': 'Test',
-#             'last_name': 'User',
-#             'username': 'invalid username',
-#             'password1': 'Testpass123',
-#             'password2': 'Testpass123'
-#         })
-#         self.assertFalse(form.is_valid())
-#         self.assertIn('username', form.errors)
-#
-#
-# class CustomUserUpdateFormTest(BaseUserTest):
-#     def test_form_inheritance(self):
-#         """Проверка что форма обновления наследует все поля от формы создания"""
-#         self.assertEqual(
-#             set(CustomUserUpdateForm.Meta.fields),
-#             set(CustomUserCreationForm.Meta.fields)
-#         )
-#
-#     def test_update_existing_user(self):
-#         """Проверка обновления существующего пользователя"""
-#         form = CustomUserUpdateForm(data={
-#             'first_name': 'Updated',
-#             'last_name': 'Name',
-#             'username': 'updated_username',
-#             'password1': 'Newpass123',
-#             'password2': 'Newpass123'
-#         }, instance=self.user1)
-#         self.assertTrue(form.is_valid())
-#
-#     def test_username_uniqueness_on_update(self):
-#         """Проверка уникальности имени при обновлении"""
-#         form = CustomUserUpdateForm(data={
-#             'first_name': 'Ivan',
-#             'last_name': 'Ivanov',
-#             'username': 'Gray',
-#             'password1': 'Newpass123',
-#             'password2': 'Newpass123'
-#         }, instance=self.user1)
-#         self.assertFalse(form.is_valid())
-#         self.assertEqual(
-#             form.errors['username'],
-#             ['Пользователь с таким именем уже существует']
-#         )
-#
-#     def test_update_with_same_username(self):
-#         """Проверка что пользователь может сохранить свой текущий username"""
-#         form = CustomUserUpdateForm(data={
-#             'first_name': 'Ivan',
-#             'last_name': 'Ivanov',
-#             'username': 'Ivashka',
-#             'password1': 'Newpass123',
-#             'password2': 'Newpass123'
-#         }, instance=self.user1)
-#         self.assertTrue(form.is_valid())
+from .test_base import BaseTaskTest
+from tasks.forms import TaskForm, TaskFilter
+
+
+class TaskFormTest(BaseTaskTest):
+    def test_form_fields_and_widgets(self):
+        """Тестирование полей формы и виджетов"""
+        form = TaskForm(user=self.user1)
+
+        # Проверка полей
+        self.assertIn('name', form.fields)
+        self.assertIn('description', form.fields)
+        self.assertIn('status', form.fields)
+        self.assertIn('performer', form.fields)
+        self.assertIn('labels', form.fields)
+
+        # Проверка виджетов
+        self.assertEqual(
+            form.fields['name'].widget.attrs['class'],
+            'form-control'
+        )
+        self.assertEqual(
+            form.fields['description'].widget.attrs['class'],
+            'form-control'
+        )
+        self.assertEqual(
+            form.fields['status'].widget.attrs['class'],
+            'form-select'
+        )
+        self.assertEqual(
+            form.fields['performer'].widget.attrs['class'],
+            'form-select'
+        )
+
+    def test_form_validation(self):
+        """Тестирование валидации формы"""
+        # Валидные данные
+        form = TaskForm(data={
+            'name': 'Новая задача',
+            'description': 'Описание',
+            'status': self.status1.pk,
+            'performer': self.user2.pk,
+            'labels': [self.label1.pk]
+        }, user=self.user1)
+        self.assertTrue(form.is_valid())
+
+        # Пустое имя
+        form = TaskForm(data={
+            'name': '',
+            'status': self.status1.pk
+        }, user=self.user1)
+        self.assertFalse(form.is_valid())
+        self.assertIn('name', form.errors)
+
+    def test_form_save(self):
+        """Тестирование сохранения формы"""
+        form = TaskForm(data={
+            'name': 'Сохраненная задача',
+            'description': 'Описание',
+            'status': self.status1.pk,
+            'performer': self.user2.pk,
+            'labels': [self.label1.pk]
+        }, user=self.user1)
+
+        task = form.save()
+        self.assertEqual(task.author, self.user1)
+        self.assertEqual(task.performer, self.user2)
+        self.assertEqual(list(task.labels.all()), [self.label1])
+
+
+class TaskFilterTest(BaseTaskTest):
+    def test_filter_fields(self):
+        """Тестирование полей фильтра"""
+        filter = TaskFilter(data={}, request=self.request)
+        self.assertIn('status', filter.filters)
+        self.assertIn('performer', filter.filters)
+        self.assertIn('labels', filter.filters)
+        self.assertIn('self_tasks', filter.filters)
+
+    def test_self_tasks_filter(self):
+        """Тестирование фильтрации своих задач"""
+        filter = TaskFilter(
+            data={'self_tasks': True},
+            request=self.request
+        )
+
+        queryset = filter.qs
+
+        self.assertEqual(queryset.count(), 1)
+        self.assertEqual(queryset.first().author, self.user1)

@@ -1,0 +1,28 @@
+[
+    {
+      "model": "tasks.task",
+      "pk": 1,
+      "fields": {
+        "name": "Test task",
+        "description": "Some description",
+        "status": 2,
+        "author": 1,
+        "performer": 2,
+        "labels": [1, 2],
+        "created_at": "2025-05-16T01:00:00Z"
+      }
+    },
+    {
+      "model": "tasks.task",
+      "pk": 2,
+      "fields": {
+        "name": "Test task 2",
+        "description": "Another description",
+        "status": 1,
+        "author": 2,
+        "performer": 1,
+        "labels": [],
+        "created_at": "2025-05-17T02:00:00Z"
+      }
+    }
+  ]

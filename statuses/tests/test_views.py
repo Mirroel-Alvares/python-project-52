@@ -71,7 +71,7 @@ class StatusViewsTest(BaseStatusTest):
             follow=True
         )
 
-        self.assertRedirects(response, reverse('users:users_index'))
+        self.assertRedirects(response, reverse('statuses:statuses_index'))
         self.assertFalse(
             Status.objects.filter(pk=self.status.pk).exists()
         )

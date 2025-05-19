@@ -20,15 +20,6 @@ class TaskForm(forms.ModelForm):
         self.fields['performer'].queryset = User.objects.filter(is_active=True)
         self.fields['labels'].queryset = Label.objects.all()
 
-    # def save(self, commit=True):
-    #     instance = super().save(commit=False)
-    #     if self.user:
-    #         instance.author = self.user
-    #     instance.save()
-    #     if self.cleaned_data['labels']:
-    #         instance.labels.set(self.cleaned_data['labels'])
-    #     return instance
-
     def save(self, commit=True):
         instance = super().save(commit=False)
         if self.user:

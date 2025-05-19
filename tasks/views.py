@@ -73,7 +73,7 @@ class TaskDelete(AuthRequiredMixin, OwnerRequiredMixin,
     permission_url = reverse_lazy("tasks:tasks_index")
 
 
-class TaskDetails(DetailView):
+class TaskDetails(AuthRequiredMixin, DetailView):
     model = Task
     template_name = "tasks/task_details.html"
 

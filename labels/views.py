@@ -6,12 +6,9 @@ from django.views.generic import (
     ListView,
     UpdateView,
 )
-from django.contrib import messages
-from django.shortcuts import redirect
-
 from labels.forms import LabelForm
 from labels.models import Label
-from main.mixins import AuthRequiredMixin
+from main.mixins import AuthRequiredMixin, DeleteProtectionMixin
 
 
 class LabelsIndexView(AuthRequiredMixin, ListView):
@@ -46,7 +43,8 @@ class LabelUpdate(AuthRequiredMixin, SuccessMessageMixin, UpdateView):
     success_message = "Метка успешно изменена"
 
 
-class LabelDelete(AuthRequiredMixin, SuccessMessageMixin, DeleteView):
+class LabelDelete(AuthRequiredMixin, DeleteProtectionMixin,
+                  SuccessMessageMixin, DeleteView):
     model = Label
     template_name = "main/delete_form.html"
     success_url = reverse_lazy("labels:labels_index")
@@ -55,16 +53,5 @@ class LabelDelete(AuthRequiredMixin, SuccessMessageMixin, DeleteView):
         title="Удаление метки"
     )
     success_message = 'Метка успешно удалена'
-
-    def delete(self, request, *args, **kwargs):
-        label = self.get_object()
-        if Label.objects.filter(label=label).exists():
-            messages.error(
-            request,
-            """
-            Невозможно удалить метку,
-            потому что она используется
-            """
-            )
-            return redirect(self.success_url)
-        return super().delete(request, *args, **kwargs)
+    protected_message = 'Невозможно удалить метку, потому что она используется'
+    protected_url = reverse_lazy("labels:labels_index")

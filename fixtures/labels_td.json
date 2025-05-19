@@ -1,0 +1,18 @@
+[
+    {
+      "model": "labels.label",
+      "pk": 1,
+      "fields": {
+        "name": "local bug",
+        "created_at": "2025-05-15T00:00:00Z"
+      }
+    },
+    {
+      "model": "labels.label",
+      "pk": 2,
+      "fields": {
+        "name": "database optimization",
+        "created_at": "2025-05-16T01:00:00Z"
+      }
+    }
+  ]
