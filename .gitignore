@@ -5,6 +5,7 @@ dist/
 .venv/
 .coverage
 coverage.xml
+coverage.html
 .pytest_cache/
 demo.cast
 .python-version

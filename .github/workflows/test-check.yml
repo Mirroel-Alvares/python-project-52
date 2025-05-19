@@ -77,3 +77,4 @@ jobs:
             -Dsonar.exclusions=**/migrations/**,**/tests/**,**/static/**
             -Dsonar.tests=tests
             -Dsonar.python.version=${{ env.PYTHON_VERSION }}
+            -Dsonar.ci.autoconfig.disabled=true
