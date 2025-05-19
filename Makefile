@@ -36,10 +36,6 @@ test:
 	python3 manage.py test
 
 test-coverage:
-# 	uv run pytest --cov=task_manager --cov-report xml
-
-	coverage run --source='.' -m pytest tests/
-	coverage xml
-
-tests:
-	uv run pytest -vv
+	uv run coverage run manage.py test task_manager
+	uv run coverage html
+	uv run coverage report
