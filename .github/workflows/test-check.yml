@@ -70,8 +70,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           args: >
-            -Dsonar.organization=<mirroel-alvares>
-            -Dsonar.projectKey=<Mirroel-Alvares_python-project-52>
+            -Dsonar.organization=mirroel-alvares
+            -Dsonar.projectKey=Mirroel-Alvares_python-project-52
             -Dsonar.python.coverage.reportPaths=coverage.xml
             -Dsonar.sources=.
             -Dsonar.exclusions=**/migrations/**,**/tests/**,**/static/**
