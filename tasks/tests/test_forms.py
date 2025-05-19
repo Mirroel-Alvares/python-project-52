@@ -71,20 +71,20 @@ class TaskFormTest(BaseTaskTest):
 class TaskFilterTest(BaseTaskTest):
     def test_filter_fields(self):
         """Тестирование полей фильтра"""
-        filter = TaskFilter(data={}, request=self.request)
-        self.assertIn('status', filter.filters)
-        self.assertIn('performer', filter.filters)
-        self.assertIn('labels', filter.filters)
-        self.assertIn('self_tasks', filter.filters)
+        filter_fields = TaskFilter(data={}, request=self.request)
+        self.assertIn('status', filter_fields.filters)
+        self.assertIn('performer', filter_fields.filters)
+        self.assertIn('labels', filter_fields.filters)
+        self.assertIn('self_tasks', filter_fields.filters)
 
     def test_self_tasks_filter(self):
         """Тестирование фильтрации своих задач"""
-        filter = TaskFilter(
+        filter_my_task = TaskFilter(
             data={'self_tasks': True},
             request=self.request
         )
 
-        queryset = filter.qs
+        queryset = filter_my_task.qs
 
         self.assertEqual(queryset.count(), 1)
         self.assertEqual(queryset.first().author, self.user1)

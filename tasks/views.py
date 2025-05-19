@@ -19,14 +19,6 @@ class TasksIndexView(AuthRequiredMixin, FilterView):
     context_object_name = "tasks"
     filterset_class = TaskFilter
 
-    # def get_queryset(self):
-    #     queryset = super().get_queryset()
-    #     if not self.request.user.is_superuser:
-    #         queryset = queryset.filter(author=self.request.user)
-    #     return queryset.select_related(
-    #         'status', 'performer', 'author'
-    #     ).prefetch_related('labels_name')
-
 
 class TaskCreate(AuthRequiredMixin, SuccessMessageMixin, CreateView):
     model = Task
