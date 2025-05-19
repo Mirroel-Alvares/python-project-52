@@ -37,5 +37,5 @@ test:
 
 test-coverage:
 	uv run coverage run manage.py test task_manager
-	uv run coverage html
+	uv run coverage xml
 	uv run coverage report
