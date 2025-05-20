@@ -17,7 +17,7 @@ shell:
 	python3 manage.py shell
 
 render-start:
-	gunicorn task_manager.wsgi
+	gunicorn task_manager.wsgi:application
 
 build:
 	./build.sh
