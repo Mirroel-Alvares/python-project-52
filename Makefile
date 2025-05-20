@@ -31,7 +31,6 @@ lint:
 lintfix:
 	uv run ruff check --fix
 
-
 test:
 	python3 manage.py test
 

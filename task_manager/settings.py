@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 import os
 from pathlib import Path
+
 from dotenv import load_dotenv
 # from django.utils.translation import gettext_lazy as _
 
@@ -98,14 +99,6 @@ TEMPLATES = [
     },
 ]
 
-# TEMPLATES = [ #удалить, если не будет проблем с отображением шаблонов
-#     {
-#         'DIRS': [os.path.join(BASE_DIR, 'templates')],  # Общая папка templates
-#         'DIRS': [BASE_DIR / 'templates'], либо такая реализация.
-#         'APP_DIRS': True,  # Ищет шаблоны в app/templates/
-#         # ...
-#     }
-# ]
 
 WSGI_APPLICATION = 'task_manager.wsgi.application'
 
@@ -184,8 +177,9 @@ LOGIN_URL = "main:login"
 LOGIN_REDIRECT_URL = "main:index"
 LOGOUT_REDIRECT_URL = "main:index"
 
-# ROLLBAR = {
-#     'access_token': os.getenv('ROLLBAR_ACCESS_TOKEN'),  # Ключ из Rollbar
-#     'environment': 'development' if DEBUG else 'production',
-#     'root': BASE_DIR,
-# }
+ROLLBAR = {
+    'access_token': os.getenv('ROLLBAR_ACCESS_TOKEN'),
+    'environment': 'development' if DEBUG else 'production',
+    'code_version': '1.0',
+    'root': BASE_DIR,
+}
