@@ -10,7 +10,3 @@ class User(AbstractUser):
         db_table = "users"
         verbose_name = "пользователь"
         verbose_name_plural = "пользователи"
-
-    # def __str__(self):
-    #     return f"{self.first_name} {self.last_name}"
-    # проверить работу первого варианта
