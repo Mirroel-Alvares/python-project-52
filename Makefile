@@ -10,9 +10,6 @@ migrations:
 migrate:
 	python3 manage.py migrate
 
-collectstatic:
-	python manage.py collectstatic --noinput
-
 shell:
 	python3 manage.py shell
 
