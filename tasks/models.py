@@ -13,6 +13,7 @@ class Task(models.Model):
     description = models.TextField(
         verbose_name='Описание',
         blank=True,
+        null=True
     )
     status = models.ForeignKey(
         Status,
@@ -32,6 +33,7 @@ class Task(models.Model):
         on_delete=models.PROTECT,
         related_name="task_performer",
         blank=True,
+        null=True
     )
     labels = models.ManyToManyField(
         Label,
