@@ -16,6 +16,9 @@ shell:
 render-start:
 	gunicorn task_manager.wsgi:application
 
+start:
+	uv run gunicorn -w 5 -b 127.0.0.1:8000 task_manager.wsgi:application
+
 build:
 	./build.sh
 
