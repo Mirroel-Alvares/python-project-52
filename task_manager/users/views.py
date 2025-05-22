@@ -7,7 +7,10 @@ from django.views.generic import (
     UpdateView,
 )
 
-from task_manager.users.forms import CustomUserCreationForm, CustomUserUpdateForm
+from task_manager.users.forms import (
+    CustomUserCreationForm,
+    CustomUserUpdateForm
+)
 from task_manager.users.models import User
 from task_manager.main.mixins import (
     AuthRequiredMixin,

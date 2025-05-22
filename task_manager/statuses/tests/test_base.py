@@ -5,7 +5,10 @@ from task_manager.users.models import User
 
 
 class BaseStatusTest(TestCase):
-    fixtures = ["task_manager/fixtures/users_td.json", "task_manager/fixtures/statuses_td.json"]
+    fixtures = [
+        "task_manager/fixtures/users_td.json",
+        "task_manager/fixtures/statuses_td.json"
+    ]
 
     @classmethod
     def setUpTestData(cls):

@@ -5,7 +5,10 @@ from task_manager.users.models import User
 
 
 class BaseLabelTest(TestCase):
-    fixtures = ["task_manager/fixtures/users_td.json", "task_manager/fixtures/labels_td.json"]
+    fixtures = [
+        "task_manager/fixtures/users_td.json",
+        "task_manager/fixtures/labels_td.json"
+    ]
 
     @classmethod
     def setUpTestData(cls):

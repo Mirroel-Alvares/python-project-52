@@ -1,6 +1,9 @@
 from django.contrib.auth import get_user_model
 from .test_base import BaseUserTest
-from task_manager.users.forms import CustomUserCreationForm, CustomUserUpdateForm
+from task_manager.users.forms import (
+    CustomUserCreationForm,
+    CustomUserUpdateForm
+)
 
 User = get_user_model()
 
