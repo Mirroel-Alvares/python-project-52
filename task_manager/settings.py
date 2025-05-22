@@ -54,12 +54,12 @@ INSTALLED_APPS = [
     'django_bootstrap5',
     'django_extensions',
     'django_filters',
-    # 'task_manager',
-    'main',
-    'labels',
-    'statuses',
-    'tasks',
-    'users',
+    'task_manager',
+    'task_manager.main',
+    'task_manager.labels',
+    'task_manager.statuses',
+    'task_manager.tasks',
+    'task_manager.users',
 ]
 
 MIDDLEWARE = [
@@ -161,7 +161,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATICFILES_DIRS = []
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
