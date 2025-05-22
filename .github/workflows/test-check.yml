@@ -74,9 +74,9 @@ jobs:
             -Dsonar.organization=mirroel-alvares
             -Dsonar.projectKey=Mirroel-Alvares_python-project-52
             -Dsonar.python.coverage.reportPaths=coverage.xml
-            -Dsonar.sources=main,labels,statuses,task_manager,tasks,users
+            -Dsonar.sources=task_manager,task_manager/main,task_manager/labels,task_manager/statuses,task_manager/tasks,task_manager/users
             -Dsonar.exclusions=**/migrations/**,**/tests/**,**/static/**
-            -Dsonar.tests=statuses/tests,tasks/tests,labels/tests,users/tests
+            -Dsonar.tests=task_manager/statuses/tests,task_manager/tasks/tests,task_manager/labels/tests,task_manager/users/tests
             -Dsonar.test.inclusions=**/test_*.py
             -Dsonar.python.version=${{ env.PYTHON_VERSION }}
             -Dsonar.ci.autoconfig.disabled=true
