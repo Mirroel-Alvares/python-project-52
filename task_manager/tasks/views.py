@@ -48,7 +48,7 @@ class TaskUpdate(AuthRequiredMixin, SuccessMessageMixin, UpdateView):
         title="Изменение задачи",
         button="Изменить"
     )
-    success_message = "Статус успешно изменен"
+    success_message = "Задача успешно изменен"
 
 
 class TaskDelete(AuthRequiredMixin, OwnerRequiredMixin,
