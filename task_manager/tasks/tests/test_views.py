@@ -76,7 +76,7 @@ class TaskViewsTest(BaseTaskTest):
         self.assertEqual(list(self.task1.labels.all()), [self.label2])
 
         messages = list(get_messages(response.wsgi_request))
-        self.assertEqual(str(messages[0]), 'Статус успешно изменен')
+        self.assertEqual(str(messages[0]), 'Задача успешно изменена')
 
     def test_task_delete_view(self):
         """Тестирование удаления задачи"""
