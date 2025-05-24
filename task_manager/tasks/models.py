@@ -27,11 +27,11 @@ class Task(models.Model):
         on_delete=models.PROTECT,
         related_name="tasks_author"
     )
-    performer = models.ForeignKey(
+    executor = models.ForeignKey(
         User,
         verbose_name='Исполнитель',
         on_delete=models.PROTECT,
-        related_name="task_performer",
+        related_name="task_executor",
         blank=True,
         null=True
     )

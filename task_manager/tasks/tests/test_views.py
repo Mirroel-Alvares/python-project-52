@@ -41,7 +41,7 @@ class TaskViewsTest(BaseTaskTest):
                 'name': 'Новая задача',
                 'description': 'Описание',
                 'status': self.status1.pk,
-                'performer': self.user2.pk,
+                'executor': self.user2.pk,
                 'labels': [self.label1.pk]
             },
             follow=True
@@ -64,7 +64,7 @@ class TaskViewsTest(BaseTaskTest):
                 'name': 'Обновленная задача',
                 'description': 'Новое описание',
                 'status': self.status1.pk,
-                'performer': self.user2.pk,
+                'executor': self.user2.pk,
                 'labels': [self.label2.pk]
             },
             follow=True

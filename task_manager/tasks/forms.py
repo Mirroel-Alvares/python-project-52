@@ -17,7 +17,7 @@ class TaskForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
 
         self.fields['status'].queryset = Status.objects.all()
-        self.fields['performer'].queryset = User.objects.filter(is_active=True)
+        self.fields['executor'].queryset = User.objects.filter(is_active=True)
         self.fields['labels'].queryset = Label.objects.all()
 
     def save(self, commit=True):
@@ -50,7 +50,7 @@ class TaskForm(forms.ModelForm):
         }),
         label="Статус"
     )
-    performer = forms.ModelChoiceField(
+    executor = forms.ModelChoiceField(
         queryset=User.objects.none(),
         widget=forms.Select(attrs={
             "class": "form-select",
@@ -72,7 +72,7 @@ class TaskForm(forms.ModelForm):
             "name",
             "description",
             "status",
-            "performer",
+            "executor",
             "labels"
         ]
 
@@ -83,7 +83,7 @@ class TaskFilter(FilterSet):
         label='Статус',
         widget=forms.Select(attrs={'class': 'form-select'})
     )
-    performer = ModelChoiceFilter(
+    executor = ModelChoiceFilter(
         queryset=User.objects.filter(is_active=True),
         label='Исполнитель',
         widget=forms.Select(attrs={'class': 'form-select'})
@@ -109,4 +109,4 @@ class TaskFilter(FilterSet):
 
     class Meta:
         model = Task
-        fields = ['status', 'performer', 'labels']
+        fields = ['status', 'executor', 'labels']

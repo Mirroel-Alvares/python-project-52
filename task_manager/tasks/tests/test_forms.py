@@ -11,7 +11,7 @@ class TaskFormTest(BaseTaskTest):
         self.assertIn('name', form.fields)
         self.assertIn('description', form.fields)
         self.assertIn('status', form.fields)
-        self.assertIn('performer', form.fields)
+        self.assertIn('executor', form.fields)
         self.assertIn('labels', form.fields)
 
         # Проверка виджетов
@@ -28,7 +28,7 @@ class TaskFormTest(BaseTaskTest):
             'form-select'
         )
         self.assertEqual(
-            form.fields['performer'].widget.attrs['class'],
+            form.fields['executor'].widget.attrs['class'],
             'form-select'
         )
 
@@ -39,7 +39,7 @@ class TaskFormTest(BaseTaskTest):
             'name': 'Новая задача',
             'description': 'Описание',
             'status': self.status1.pk,
-            'performer': self.user2.pk,
+            'executor': self.user2.pk,
             'labels': [self.label1.pk]
         }, user=self.user1)
         self.assertTrue(form.is_valid())
@@ -58,13 +58,13 @@ class TaskFormTest(BaseTaskTest):
             'name': 'Сохраненная задача',
             'description': 'Описание',
             'status': self.status1.pk,
-            'performer': self.user2.pk,
+            'executor': self.user2.pk,
             'labels': [self.label1.pk]
         }, user=self.user1)
 
         task = form.save()
         self.assertEqual(task.author, self.user1)
-        self.assertEqual(task.performer, self.user2)
+        self.assertEqual(task.executor, self.user2)
         self.assertEqual(list(task.labels.all()), [self.label1])
 
 
@@ -73,7 +73,7 @@ class TaskFilterTest(BaseTaskTest):
         """Тестирование полей фильтра"""
         filter_fields = TaskFilter(data={}, request=self.request)
         self.assertIn('status', filter_fields.filters)
-        self.assertIn('performer', filter_fields.filters)
+        self.assertIn('executor', filter_fields.filters)
         self.assertIn('labels', filter_fields.filters)
         self.assertIn('self_tasks', filter_fields.filters)
 

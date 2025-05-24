@@ -50,7 +50,7 @@
       <td><a href="{% url 'tasks:task_details' obj.id %}">{{ obj.name }}</a></td>
       <td>{{ obj.status }}</td>
       <td>{{ obj.author }}</td>
-      <td>{{ obj.performer }}</td>
+      <td>{{ obj.executor }}</td>
       <td>{{ obj.created_at|date:"d.m.Y H:i" }}</td>
       <td>
         <a href="{% url 'tasks:task_update' obj.id %}">Изменить</a>

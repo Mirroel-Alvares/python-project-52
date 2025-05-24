@@ -10,14 +10,14 @@ class TaskModelTest(BaseTaskTest):
             description="Описание",
             status=self.status1,
             author=self.user1,
-            performer=self.user2
+            executor=self.user2
         )
         task.labels.add(self.label1)
 
         self.assertEqual(task.name, "Новая задача")
         self.assertEqual(task.status, self.status1)
         self.assertEqual(task.author, self.user1)
-        self.assertEqual(task.performer, self.user2)
+        self.assertEqual(task.executor, self.user2)
         self.assertEqual(list(task.labels.all()), [self.label1])
         self.assertIsNotNone(task.created_at)
 
@@ -39,7 +39,7 @@ class TaskModelTest(BaseTaskTest):
         """Тестирование связей модели"""
         self.assertEqual(self.task1.status, self.status2)
         self.assertEqual(self.task1.author, self.user1)
-        self.assertEqual(self.task1.performer, self.user2)
+        self.assertEqual(self.task1.executor, self.user2)
         self.assertEqual(
             list(self.task1.labels.all()),
             [self.label1, self.label2]

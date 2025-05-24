@@ -33,7 +33,7 @@ class BaseTaskTest(TestCase):
             "description": "пу-пу-пу",
             "status": cls.status1.pk,
             "labels": [cls.label2.pk],
-            "performer": cls.user1.pk,
+            "executor": cls.user1.pk,
         }
 
     def setUp(self):
